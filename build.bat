@@ -1,1 +1,1 @@
-gcc vec2.c main.c -Wall -lmingw32 -lSDL2 -lSDL2main -o main
+gcc structs.c main.c -Wall -lmingw32 -lSDL2 -lSDL2main -o main
