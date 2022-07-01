@@ -1,16 +1,16 @@
 #include<stdio.h>
-#include<stdbool.h>
 #define SDL_MAIN_HANDLED
 #include<SDL2/SDL.h>
 #include"entity.h"
 
 #define WINDOW_WIDTH 750
 #define WINDOW_HEIGHT 750
+#define MAX_JUMP_FRAMES 5
 #define PLAYER_ID 0
+
 
 SDL_Window* window=NULL;
 SDL_Renderer* renderer=NULL;
-bool PlayerOnGnd=false;
 int HeldJump=0;
 
 int main(int argc, char *argv[]){
@@ -50,9 +50,14 @@ int main(int argc, char *argv[]){
 		}
 		//process input
 		const Uint8* keystate = SDL_GetKeyboardState(NULL);
-		if(keystate[SDL_SCANCODE_W] && (PlayerOnGnd || HeldJump<5)){
+		if(!keystate[SDL_SCANCODE_W]){
+			HeldJump=MAX_JUMP_FRAMES;
+		}
+		if(player.IsOnGnd){	
+			HeldJump=0;
+		}
+		if(keystate[SDL_SCANCODE_W] && (player.IsOnGnd || HeldJump<MAX_JUMP_FRAMES)){
 			player.vel.y-=10.0/(float)(HeldJump+1);
-			PlayerOnGnd=false;
 			HeldJump++;
 		}else if(keystate[SDL_SCANCODE_S]){
 			player.vel.y++;
@@ -64,12 +69,12 @@ int main(int argc, char *argv[]){
 			player.vel.x++;
 		}
 		//update part
-		UpdateEntity(&player);
+		UpdateEntity(&player, WINDOW_WIDTH, WINDOW_HEIGHT);
 		//render part
 		SDL_SetRenderDrawColor(renderer, 255, 21, 15, 255);
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, 15, 62, 255, 255);
-		ShowEntity(&player);
+		ShowEntity(&player,renderer);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(16);
 	}

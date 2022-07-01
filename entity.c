@@ -26,11 +26,11 @@ void UpdateEntity(Entity* ent, int width, int height){
 	}else if(ent->Bbox.x<=0){
 		ent->Bbox.x=0;
 	}
+	ent->IsOnGnd=false;
 	if(ent->Bbox.y+ent->Bbox.h>=height){
 		ent->Bbox.y=height-ent->Bbox.h;
 		ent->vel.y=0;
-		PlayerOnGnd=true;
-		HeldJump=0;
+		ent->IsOnGnd=true;
 	}else if(ent->Bbox.y<=0){
 		ent->Bbox.y=0;
 	}
