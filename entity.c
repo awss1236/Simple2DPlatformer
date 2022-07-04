@@ -1,6 +1,6 @@
 #include"entity.h"
 
-void InitEntity(Entity* ent,int type, float x, float y, float w, float h, float velx, float vely){
+void InitEntity(Entity* ent,int type, float x, float y, float w, float h, float velx, float vely, Uint32 col){
 	ent->type=type;
 	ent->Bbox.x=x;
 	ent->Bbox.y=y;
@@ -8,6 +8,7 @@ void InitEntity(Entity* ent,int type, float x, float y, float w, float h, float 
 	ent->Bbox.h=h;
 	ent->vel.x=velx;
 	ent->vel.y=vely;
+	ent->color=col;
 }
 
 void UpdateEntity(Entity* ent, int width, int height){
@@ -36,12 +37,13 @@ void UpdateEntity(Entity* ent, int width, int height){
 	}
 
 }
-void ShowEntity(Entity* ent, SDL_Renderer* renderer){
+void ShowEntity(SDL_Renderer* renderer, Entity* ent){
 	SDL_Rect ibox;
 	ibox.x=(int)ent->Bbox.x;
 	ibox.y=(int)ent->Bbox.y;
 	ibox.w=(int)ent->Bbox.w;
 	ibox.h=(int)ent->Bbox.h;
+	SDL_SetRenderDrawColor(renderer, UnHex(ent->color));
 	SDL_RenderDrawRect(renderer, &ibox);
 	SDL_RenderFillRect(renderer, &ibox);
 }

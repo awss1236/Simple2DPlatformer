@@ -5,7 +5,7 @@
 
 #define WINDOW_WIDTH 750
 #define WINDOW_HEIGHT 750
-#define MAX_JUMP_FRAMES 5
+#define MAX_JUMP_FRAMES 10
 #define PLAYER_ID 0
 
 
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 		return -1;
 	}
 	Entity player;
-	InitEntity(&player,PLAYER_ID,100,100,50,75,0,0);
+	InitEntity(&player,PLAYER_ID,100,100,50,75,0,0,0xDEADBEEF);
 	bool quit =false;
 	//"frame" loop
 	while(!quit){
@@ -73,8 +73,7 @@ int main(int argc, char *argv[]){
 		//render part
 		SDL_SetRenderDrawColor(renderer, 255, 21, 15, 255);
 		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 15, 62, 255, 255);
-		ShowEntity(&player,renderer);
+		ShowEntity(renderer, &player);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(16);
 	}
